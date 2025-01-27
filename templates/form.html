@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Anmeldung Kinderfasching 2025 </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Ausflug Jugendfussball 2025</h1>
+        <p class="required-info">Felder mit <span class="required">*</span> sind Pflichtfelder.</p>
+
+        <form action="/" method="POST" id="registrationForm">
+            {{ form.hidden_tag() }}
+
+            <!-- Name des Kindes -->
+            <div class="form-group">
+                <label for="child_firstname">Name des Kindes <span class="required">*</span></label>
+                <div class="input-group">
+                    {{ form.child_firstname(id="child_firstname", class="form-control", placeholder="Vorname", required="required", pattern="^[A-Za-zÄÖÜäöüß\\s]+$") }}
+                    {{ form.child_lastname(id="child_lastname", class="form-control", placeholder="Nachname", required="required", pattern="^[A-Za-zÄÖÜäöüß\\s]+$") }}
+                </div>
+            </div>
+
+            <!-- Geburtsdatum -->
+            <div class="form-group">
+                <label for="birthdate">Geburtsdatum des Kindes <span class="required">*</span></label>
+                {{ form.birthdate(id="birthdate", class="form-control", required="required", placeholder="TT.MM.JJJJ", pattern="\\d{2}\\.\\d{2}\\.\\d{4}", aria_label="Geburtsdatum des Kindes") }}
+            </div>
+
+            <!-- Vereinsmitgliedschaft -->
+            <div class="form-group">
+                <label for="club_membership">Vereinsmitgliedschaft <span class="required">*</span></label>
+                <select id="club_membership" name="club_membership" class="form-control" required aria-label="Vereinsmitgliedschaft auswählen">
+                    <option value="">Bitte auswählen</option>
+                    <option value="TSV Bitzfeld 1922 e.V.">TSV Bitzfeld 1922 e.V.</option>
+                    <option value="TSV Schwabbach 1947 e.V.">TSV Schwabbach 1947 e.V.</option>
+                </select>
+            </div>
+
+            <!-- Name des Erziehungsberechtigten -->
+            <div class="form-group">
+                <label for="parent_firstname">Name eines Erziehungsberechtigten <span class="required">*</span></label>
+                <div class="input-group">
+                    {{ form.parent_firstname(id="parent_firstname", class="form-control", placeholder="Vorname", required="required", pattern="^[A-Za-zÄÖÜäöüß\\s]+$", aria_label="Vorname Erziehungsberechtigter") }}
+                    {{ form.parent_lastname(id="parent_lastname", class="form-control", placeholder="Nachname", required="required", pattern="^[A-Za-zÄÖÜäöüß\\s]+$", aria_label="Nachname Erziehungsberechtigter") }}
+                </div>
+            </div>
+
+            <!-- Notfall-Telefonnummer -->
+            <div class="form-group">
+                <label for="phone_number">Notfall-Telefonnummer eines Erziehungsberechtigten <span class="required">*</span></label>
+                <div class="input-group">
+                    {{ form.phone_number(id="phone_number", class="form-control", placeholder="Telefonnummer", required="required", pattern="\\+?\\d{10,15}", aria_label="Notfall-Telefonnummer Erziehungsberechtigter") }}
+                </div>
+            </div>
+
+            <!-- E-Mail -->
+            <div class="form-group">
+                <label for="email">E-Mail Adresse eines Erziehungsberechtigten <span class="required">*</span></label>
+                <div class="input-group">
+                    {{ form.email(id="email", class="form-control", placeholder="E-Mail", required="required", pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$") }}
+                </div>
+            </div>
+
+            <!-- Datenschutz -->
+<p>
+    Mit dem Absenden erkläre ich mich mit der 
+    <a href="{{ url_for('privacy') }}" class="privacy-link" target="_blank">
+        Datenschutzerklärung
+    </a>
+    einverstanden.
+</p>
+
+
+            <!-- Abschicken -->
+            <button type="submit">Anmeldung absenden</button>
+        </form>
+    </div>
+
+
+</body>
+</html>

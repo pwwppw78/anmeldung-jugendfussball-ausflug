@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel</title>
+</head>
+<body>
+    <h1>Registrierte Teilnehmer</h1>
+    <table border="1">
+        <tr>
+            <th>Vorname</th>
+            <th>Nachname</th>
+            <th>Geburtsdatum</th>
+            <th>Vereinsmitgliedschaft</th>
+            <th>Telefon</th>
+            <th>Email</th>
+            <th>Aktionen</th>
+        </tr>
+        {% for registration in registrations %}
+        <tr>
+            <td>{{ registration.child_firstname }}</td>
+            <td>{{ registration.child_lastname }}</td>
+            <td>{{ registration.birthdate }}</td>
+            <td>{{ registration.club_membership }}</td>
+            <td>{{ registration.phone_number }}</td>
+            <td>{{ registration.email }}</td>
+            <td>
+                <!-- Formular zum Löschen eines einzelnen Eintrags -->
+                <form action="{{ url_for('delete_entry', entry_id=registration.id) }}" method="post" onsubmit="return confirm('Bist du sicher?');">
+                    {{ form.hidden_tag() }}
+                    <button type="submit">Löschen</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+
+    <!-- Formular zum Löschen aller Einträge -->
+    <form action="{{ url_for('delete_all_entries') }}" method="post" onsubmit="return confirm('Möchtest du wirklich alle Einträge löschen?');">
+        {{ form.hidden_tag() }}
+        <button type="submit">Alle Einträge löschen</button>
+    </form>
+
+    <br>
+
+    <!-- Button zum Exportieren der Daten als Excel -->
+    <div class="button-container">
+        <a href="{{ url_for('export_excel') }}" class="button">Daten als Excel exportieren</a>
+    </div>
+
+</body>
+</html>
