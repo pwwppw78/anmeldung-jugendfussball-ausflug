@@ -1,0 +1,118 @@
+2025-01-27 14:23:38,798 - ERROR - 404 Error: http://127.0.0.1:10000/static/stadium-jufua.svg
+2025-01-27 14:23:39,080 - ERROR - 404 Error: http://127.0.0.1:10000/favicon.ico
+2025-01-27 14:52:33,010 - ERROR - Exception on /admin [GET]
+Traceback (most recent call last):
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Scripts\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Scripts\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: registration
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Scripts\venv\Lib\site-packages\flask\app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Scripts\venv\Lib\site-packages\flask\app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Scripts\venv\Lib\site-packages\flask\app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Scripts\venv\Lib\site-packages\flask\app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\app.py", line 272, in admin
+    registrations = Registration.query.all()
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Scripts\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2699, in all
+    return self._iter().all()  # type: ignore
+           ~~~~~~~~~~^^
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Scripts\venv\Lib\site-packages\sqlalchemy\orm\query.py", line 2853, in _iter
+    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
+                                                  ~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+        params,
+        ^^^^^^^
+        execution_options={"_sa_orm_load_options": self.load_options},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Scripts\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2365, in execute
+    return self._execute_internal(
+           ~~~~~~~~~~~~~~~~~~~~~~^
+        statement,
+        ^^^^^^^^^^
+    ...<4 lines>...
+        _add_event=_add_event,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Scripts\venv\Lib\site-packages\sqlalchemy\orm\session.py", line 2251, in _execute_internal
+    result: Result[Any] = compile_state_cls.orm_execute_statement(
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self,
+        ^^^^^
+    ...<4 lines>...
+        conn,
+        ^^^^^
+    )
+    ^
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Scripts\venv\Lib\site-packages\sqlalchemy\orm\context.py", line 305, in orm_execute_statement
+    result = conn.execute(
+        statement, params or {}, execution_options=execution_options
+    )
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Scripts\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1416, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Scripts\venv\Lib\site-packages\sqlalchemy\sql\elements.py", line 515, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Scripts\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1638, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Scripts\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1843, in _execute_context
+    return self._exec_single_context(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        dialect, context, statement, parameters
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Scripts\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1983, in _exec_single_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e, str_statement, effective_parameters, cursor, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Scripts\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 2352, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Scripts\venv\Lib\site-packages\sqlalchemy\engine\base.py", line 1964, in _exec_single_context
+    self.dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        cursor, str_statement, effective_parameters, context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Scripts\venv\Lib\site-packages\sqlalchemy\engine\default.py", line 942, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such table: registration
+[SQL: SELECT registration.id AS registration_id, registration.child_firstname AS registration_child_firstname, registration.child_lastname AS registration_child_lastname, registration.birthdate AS registration_birthdate, registration.allergies AS registration_allergies, registration.club_membership AS registration_club_membership, registration.parent_firstname AS registration_parent_firstname, registration.parent_lastname AS registration_parent_lastname, registration.phone_number AS registration_phone_number, registration.email AS registration_email 
+FROM registration]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-01-27 14:52:33,044 - ERROR - 500 Error: http://127.0.0.1:10000/admin
