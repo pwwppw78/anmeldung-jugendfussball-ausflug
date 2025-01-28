@@ -46,3 +46,4 @@ Traceback (most recent call last):
               ^^^^^^^^^^^^^^
 AttributeError: 'RegistrationForm' object has no attribute 'allergies'
 2025-01-28 13:11:23,205 - ERROR - 500 Error: http://127.0.0.1:10000/
+2025-01-28 16:36:57,647 - ERROR - 404 Error: http://127.0.0.1:10000/static/confetti_top.svg
