@@ -1,0 +1,48 @@
+2025-01-28 13:02:59,522 - ERROR - Exception on / [POST]
+Traceback (most recent call last):
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Lib\site-packages\flask\app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Lib\site-packages\flask\app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Lib\site-packages\flask\app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Lib\site-packages\flask\app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\app.py", line 187, in register
+    allergies=form.allergies.data,
+              ^^^^^^^^^^^^^^
+AttributeError: 'RegistrationForm' object has no attribute 'allergies'
+2025-01-28 13:02:59,563 - ERROR - 500 Error: http://127.0.0.1:10000/
+2025-01-28 13:10:45,433 - ERROR - Exception on / [POST]
+Traceback (most recent call last):
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Lib\site-packages\flask\app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Lib\site-packages\flask\app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Lib\site-packages\flask\app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Lib\site-packages\flask\app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\app.py", line 187, in register
+    allergies=form.allergies.data,
+              ^^^^^^^^^^^^^^
+AttributeError: 'RegistrationForm' object has no attribute 'allergies'
+2025-01-28 13:10:45,443 - ERROR - 500 Error: http://127.0.0.1:10000/
+2025-01-28 13:11:23,197 - ERROR - Exception on / [POST]
+Traceback (most recent call last):
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Lib\site-packages\flask\app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Lib\site-packages\flask\app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Lib\site-packages\flask\app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\venv\Lib\site-packages\flask\app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\app.py", line 187, in register
+    allergies=form.allergies.data,
+              ^^^^^^^^^^^^^^
+AttributeError: 'RegistrationForm' object has no attribute 'allergies'
+2025-01-28 13:11:23,205 - ERROR - 500 Error: http://127.0.0.1:10000/

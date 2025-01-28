@@ -184,7 +184,6 @@ def register():
             child_firstname=form.child_firstname.data,
             child_lastname=form.child_lastname.data,
             birthdate=formatted_date,
-            allergies=form.allergies.data,
             club_membership=form.club_membership.data,
             parent_firstname=form.parent_firstname.data,
             parent_lastname=form.parent_lastname.data,
