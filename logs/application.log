@@ -1,0 +1,21 @@
+2025-02-11 11:20:06,107 INFO: Application startup [in C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\app.py:94]
+2025-02-11 11:20:10,688 INFO: Application startup [in C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\app.py:94]
+2025-02-11 11:20:35,379 INFO: Application startup [in C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\app.py:94]
+2025-02-11 11:20:42,507 ERROR: Error accessing admin dashboard: (sqlite3.OperationalError) no such column: registration.persons
+[SQL: SELECT registration.id AS registration_id, registration.persons AS registration_persons, registration.contact_firstname AS registration_contact_firstname, registration.contact_lastname AS registration_contact_lastname, registration.phone_number AS registration_phone_number, registration.email AS registration_email, registration.confirmed AS registration_confirmed, registration.created_at AS registration_created_at 
+FROM registration ORDER BY registration.created_at DESC]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [in C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\app.py:516]
+2025-02-11 11:20:48,540 INFO: Admin login successful [in C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\app.py:450]
+2025-02-11 11:20:48,555 ERROR: Error accessing admin dashboard: (sqlite3.OperationalError) no such column: registration.persons
+[SQL: SELECT registration.id AS registration_id, registration.persons AS registration_persons, registration.contact_firstname AS registration_contact_firstname, registration.contact_lastname AS registration_contact_lastname, registration.phone_number AS registration_phone_number, registration.email AS registration_email, registration.confirmed AS registration_confirmed, registration.created_at AS registration_created_at 
+FROM registration ORDER BY registration.created_at DESC]
+(Background on this error at: https://sqlalche.me/e/20/e3q8) [in C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\app.py:516]
+2025-02-11 11:22:33,567 INFO: Application startup [in C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\app.py:94]
+2025-02-11 11:22:34,871 INFO: Application startup [in C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\app.py:94]
+2025-02-11 11:22:39,927 INFO: Application startup [in C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\app.py:94]
+2025-02-11 11:22:57,098 INFO: Application startup [in C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\app.py:94]
+2025-02-11 11:23:09,473 INFO: Registrations data: [] [in C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\app.py:504]
+2025-02-11 11:23:09,474 INFO: Stats: {'total_registrations': 0, 'confirmed_registrations': 0, 'total_persons': 0} [in C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\app.py:505]
+2025-02-11 11:23:18,693 INFO: Admin login successful [in C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\app.py:450]
+2025-02-11 11:23:18,707 INFO: Registrations data: [] [in C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\app.py:504]
+2025-02-11 11:23:18,707 INFO: Stats: {'total_registrations': 0, 'confirmed_registrations': 0, 'total_persons': 0} [in C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\app.py:505]

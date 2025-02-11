@@ -1,4 +1,4 @@
-2025-02-03 15:18:40,911 - ERROR - Exception on /admin [GET]
+2025-01-31 14:17:58,288 - ERROR - Exception on /admin [GET]
 Traceback (most recent call last):
   File "C:\Users\pwwpp\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\engine\base.py", line 1964, in _exec_single_context
     self.dialect.do_execute(
@@ -24,7 +24,7 @@ Traceback (most recent call last):
   File "C:\Users\pwwpp\AppData\Local\Programs\Python\Python313\Lib\site-packages\flask\app.py", line 852, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
-  File "C:\Users\pwwpp\Websites\anmeldung-kinderfasching\app.py", line 272, in admin
+  File "C:\Users\pwwpp\Websites\anmeldung-kinderfasching\app.py", line 274, in admin
     registrations = Registration.query.all()
   File "C:\Users\pwwpp\AppData\Local\Programs\Python\Python313\Lib\site-packages\sqlalchemy\orm\query.py", line 2699, in all
     return self._iter().all()  # type: ignore
@@ -113,15 +113,5 @@ sqlalchemy.exc.OperationalError: (sqlite3.OperationalError) no such column: regi
 [SQL: SELECT registration.id AS registration_id, registration.children AS registration_children, registration.parent_firstname AS registration_parent_firstname, registration.parent_lastname AS registration_parent_lastname, registration.phone_number AS registration_phone_number, registration.email AS registration_email, registration.confirmed AS registration_confirmed, registration.created_at AS registration_created_at 
 FROM registration]
 (Background on this error at: https://sqlalche.me/e/20/e3q8)
-2025-02-03 15:18:41,162 - ERROR - 500 Error: http://127.0.0.1:10000/admin
-2025-02-03 15:24:43,867 - ERROR - 500 Error: http://127.0.0.1:10000/
-2025-02-03 15:25:00,889 - ERROR - 500 Error: http://127.0.0.1:10000/
-2025-02-03 15:26:43,536 - ERROR - 500 Error: http://127.0.0.1:10000/
-2025-02-03 15:28:51,308 - ERROR - 500 Error: http://127.0.0.1:10000/
-2025-02-03 15:28:55,693 - ERROR - 500 Error: http://127.0.0.1:10000/
-2025-02-03 15:29:47,190 - ERROR - 500 Error: http://127.0.0.1:10000/
-2025-02-03 15:32:53,807 - ERROR - 500 Error: http://127.0.0.1:10000/
-2025-02-03 15:33:18,105 - ERROR - 500 Error: http://127.0.0.1:10000/
-2025-02-03 15:35:04,013 - ERROR - 500 Error: http://127.0.0.1:10000/
-2025-02-03 15:35:36,599 - ERROR - 500 Error: http://127.0.0.1:10000/
-2025-02-04 09:16:57,442 - ERROR - 404 Error: http://127.0.0.1:10000/favicon.ico
+2025-01-31 14:17:58,551 - ERROR - 500 Error: http://127.0.0.1:10000/admin
+2025-02-03 15:00:22,900 - ERROR - 404 Error: http://127.0.0.1:10000/favicon.ico

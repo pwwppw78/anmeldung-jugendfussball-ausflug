@@ -1,59 +1,35 @@
-<!-- Jugendfussball -->
+<!-- Stadionausfahrt -->
 
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <meta charset="UTF-8">
-    <title>Admin Panel</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='icon-tsv-bitzfeld.png') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel</title>
+  <link rel="icon" type="image/jpg" href="{{ url_for('static', filename='icon-sgm-brettachtal.jpg') }}">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script nonce="{{ csp_nonce }}" src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script nonce="{{ csp_nonce }}" src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>  
+  <script nonce="{{ csp_nonce }}" src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+  <script nonce="{{ csp_nonce }}">
+    window.ADMIN_DATA = {
+      registrations: {{ registrations | tojson | safe }},
+      stats: {{ stats | tojson | safe }},
+      csrfToken: "{{ csrf_token }}"
+    };
+  </script>
+  <script nonce="{{ csp_nonce }}" type="text/babel" src="{{ url_for('static', filename='admin.js') }}"></script>
 </head>
 <body>
-    <div class="table-container">
-    <h1>Registrierte Teilnehmer</h1>
-    <table border="1">
-        <tr>
-            <th>Vorname</th>
-            <th>Nachname</th>
-            <th>Geburtsdatum</th>
-            <th>Vereinsmitgliedschaft</th>
-            <th>Telefon</th>
-            <th>Email</th>
-            <th>Aktionen</th>
-        </tr>
-        {% for registration in registrations %}
-        <tr>
-            <td>{{ registration.child_firstname }}</td>
-            <td>{{ registration.child_lastname }}</td>
-            <td>{{ registration.birthdate }}</td>
-            <td>{{ registration.club_membership }}</td>
-            <td>{{ registration.phone_number }}</td>
-            <td>{{ registration.email }}</td>
-            <td>
-                <!-- Formular zum Löschen eines einzelnen Eintrags -->
-                <form action="{{ url_for('delete_entry', entry_id=registration.id) }}" method="post" onsubmit="return confirm('Bist du sicher?');">
-            {{ form.hidden_tag() }}
-                    <button type="submit" class="delete-button">Löschen</button>
-                </form>
-            </td>
-        </tr>
+  <div id="root"></div>
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            <div class="flash-message" data-category="{{ category }}">
+                {{ message }}
+            </div>
         {% endfor %}
-    </table>
-
-    <br>
-
-    <!-- Formular zum Löschen aller Einträge -->
-    <form action="{{ url_for('delete_all_entries') }}" method="post" onsubmit="return confirm('Möchtest du wirklich alle Einträge löschen?');">
-            {{ form.hidden_tag() }}
-        <button type="submit" class="delete-all-button">Alle Einträge löschen</button>
-    </form>
-
-    <br>
-
-    <!-- Button zum Exportieren der Daten als Excel -->
-    <div class="button-container">
-        <a href="{{ url_for('export_excel') }}" class="button">Daten als Excel exportieren</a>
-    </div>
-    </div>
+    {% endif %}
+{% endwith %}
 </body>
 </html>

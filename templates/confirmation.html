@@ -1,4 +1,4 @@
-<!-- Jugendfussball -->
+<!-- Stadionausfahrt -->
 
 <!DOCTYPE html>
 <html lang="de">
@@ -7,18 +7,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>Bestätigung</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='icon-tsv-bitzfeld.png') }}">
+    <link rel="icon" type="image/jpg" href="{{ url_for('static', filename='icon-sgm-brettachtal.jpg') }}">
 </head>
 <body>
     <div class="container">
-        <h1>Vielen Dank für Ihre Anmeldung!</h1>
-        <p>Die Anmeldung für <strong>{{ child_firstname }}</strong> <strong>{{ child_lastname }}</strong>, 
-geboren am <strong>{{ birthdate }}</strong>, wurde erfolgreich übermittelt. <br><br>Bitte prüfen Sie das Postfach der von Ihnen angegebenen E-Mail-Adresse. Dort finden Sie eine Kopie der von Ihnen angegebenen Daten. <br><br>Um die Anmeldung abzuschließen ist die Bezahlung via <strong>PayPal Friends & Family</strong> erforderlich. </p>
+        <h1>VIELEN DANK FÜR IHRE ANMELDUNG!</h1>
         
-        <div class="button-container">
-    		<a href="https://paypal.me/pascalweibler?country.x=DE&locale.x=de_DE" target="_blank" class="paypal-button">Mit PayPal Friends & Family zahlen</a>
-	</div>
+        <h3><br>Angemeldete Personen</h3>
+        {% if data and data.persons %}
+            <div class="registered-persons">
+                {% for person in data.persons %}
+                    {% if person.person_firstname and person.person_lastname %}
+                        <div class="person-name">{{ person.person_firstname }} {{ person.person_lastname }}</div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Keine Personen angemeldet.</p>
+        {% endif %}
+
+        <!-- Bezahloptionen -->
+        <h3>Bezahlung</h3>
+        <div class="payment-info">
+            <p>Um die Anmeldung abzuschließen, ist die Bezahlung der Eintrittskarte(n) per <strong>PayPal Friends & Family</strong> oder <strong>Banküberweisung</strong> erforderlich.</p>
+            <p>Die Bestätigung der Anmeldung erfolgt innerhalb von <strong>24 Stunden</strong> nach Eingang der Zahlung per Mail.</p>
+        </div>
+
+        <div class="button-wrapper">
+            <button class="paypal-button">PayPal</button>
+            <button class="bank-button">Banküberweisung</button>
+        </div>
+
+        <!-- Versteckte Bankdaten -->
+        <div id="bank-details" style="display: none;">
+            <div class="bank-details-container">
+                <h2>Banküberweisung</h2>
+                <p><strong>Empfänger:</strong> {{ payment_info.recipient }}</p>
+                <p><strong>IBAN:</strong> {{ payment_info.iban }}</p>
+                <p><strong>BIC:</strong> {{ payment_info.bic }}</p>
+                <p><strong>Verwendungszweck:</strong> Kinderfasching 2025 - {{ data.contact_firstname }} {{ data.contact_lastname }}</p>
+                <p><br><br>Bitte überweisen Sie den Betrag innerhalb von 3 Werktagen.</p>
+            </div>
+        </div>
     </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
-
