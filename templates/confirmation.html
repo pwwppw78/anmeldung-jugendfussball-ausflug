@@ -21,9 +21,20 @@
                         <div class="person-name">{{ person.person_firstname }} {{ person.person_lastname }}</div>
                     {% endif %}
                 {% endfor %}
+                {% if data.contact_firstname and data.contact_lastname %}
+                            <div class="person-name">{{ data.contact_firstname }} {{ data.contact_lastname }} (Begleit-/Aufsichtsperson)</div>
+                    {% endif %}
             </div>
         {% else %}
             <p>Keine Personen angemeldet.</p>
+        {% endif %}
+
+        {% if data.is_driver %}
+        <div class="driver-info">
+            <h3>Mitfahrgelegenheit</h3>
+            <p>Vielen Dank, dass Sie mit dem Auto fahren möchten!</p>
+            <p>Sie haben angegeben, dass {% if data.available_seats == 1 %}1 Sitzplatz{% else %}{{ data.available_seats }} Sitzplätze{% endif %} in Ihrem Auto verfügbar sind.</p>
+        </div>
         {% endif %}
 
         <!-- Bezahloptionen -->
@@ -45,7 +56,7 @@
                 <p><strong>Empfänger:</strong> {{ payment_info.recipient }}</p>
                 <p><strong>IBAN:</strong> {{ payment_info.iban }}</p>
                 <p><strong>BIC:</strong> {{ payment_info.bic }}</p>
-                <p><strong>Verwendungszweck:</strong> Kinderfasching 2025 - {{ data.contact_firstname }} {{ data.contact_lastname }}</p>
+                <p><strong>Verwendungszweck:</strong> Stadionausfahrt - {{ data.contact_firstname }} {{ data.contact_lastname }}</p>
                 <p><br><br>Bitte überweisen Sie den Betrag innerhalb von 3 Werktagen.</p>
             </div>
         </div>

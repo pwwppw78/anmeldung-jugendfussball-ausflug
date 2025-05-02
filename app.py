@@ -149,6 +149,7 @@ class Registration(db.Model):
     persons = db.Column(db.Text, nullable=False, default='[]')
     contact_firstname = db.Column(db.String(50), nullable=False)
     contact_lastname = db.Column(db.String(50), nullable=False)
+    contact_birthdate = db.Column(db.String(10), nullable=False)
     phone_number = db.Column(db.String(15), nullable=False)
     email = db.Column(db.String(100), nullable=False, index=True)
     confirmed = db.Column(db.Boolean, default=False)
@@ -157,6 +158,8 @@ class Registration(db.Model):
         default=lambda: datetime.now(pytz.timezone("Europe/Berlin")),
         index=True
     )
+    is_driver = db.Column(db.Boolean, default=False)
+    available_seats = db.Column(db.Integer, nullable=True)
 
     @validates('email')
     def validate_email(self, key, address):
@@ -175,7 +178,9 @@ class Registration(db.Model):
             'phone_number': self.phone_number,
             'email': self.email,
             'confirmed': self.confirmed,
-            'created_at': self.created_at.strftime("%d.%m.%Y %H:%M")
+            'created_at': self.created_at.strftime("%d.%m.%Y %H:%M"),
+            'is_driver': self.is_driver,
+            'available_seats': self.available_seats
         }
 
 class RegistrationForm(FlaskForm):
@@ -254,7 +259,7 @@ def validate_registration_data(data: Dict) -> Tuple[bool, Optional[str]]:
     if not isinstance(data, dict):
         return False, "Invalid request format"
     
-    required_fields = ["contact_firstname", "contact_lastname", "phone_number", "email"]
+    required_fields = ["contact_firstname", "contact_lastname", "contact_birthdate", "phone_number", "email"]
     missing_fields = [field for field in required_fields if not data.get(field)]
     if missing_fields:
         return False, f"Missing required fields: {', '.join(missing_fields)}"
@@ -263,13 +268,28 @@ def validate_registration_data(data: Dict) -> Tuple[bool, Optional[str]]:
     if not persons_data:
         return False, "Mindestens eine Person muss hinzugefügt werden."
     
+    if data.get("available_seats") is not None:
+        try:
+            seats = int(data["available_seats"])
+            if seats < 1:
+                return False, "Anzahl der Sitzplätze muss mindestens 1 sein."
+        except (ValueError, TypeError):
+            return False, "Ungültige Eingabe für die Anzahl der Sitzplätze."
+
     return True, None
 
 def format_persons_details(persons):
+    """Format the list of persons with their details"""
     return "\n".join([
         f"{person['person_firstname']} {person['person_lastname']} (Geb.: {person['birthdate']})"
         for person in persons
     ])
+
+def get_driver_info(entry):
+    """Generate driver information text if applicable"""
+    if entry.is_driver and entry.available_seats:
+        return f"Erinnerung: Sie haben angegeben, dass sie mit ihrem Auto ({entry.available_seats} Sitzplätze) fahren."
+    return ""
 
 def send_confirmation_email(app, entry_id):
     """Send confirmation email to registrant"""
@@ -293,7 +313,8 @@ def send_confirmation_email(app, entry_id):
             # Format template with registration data
             email_body = template.format(
                 **entry.to_dict(), 
-                persons_details=format_persons_details(json.loads(entry.persons))
+                persons_details=format_persons_details(json.loads(entry.persons)),
+                driver_info=get_driver_info(entry)
             )
             msg.attach(MIMEText(email_body, "plain"))
 
@@ -330,6 +351,19 @@ def sanitize_input(value):
     
     return value
 
+def calculate_age(birth_date_str, reference_date=datetime(2025, 5, 10)):
+    """Calculate age on a specific date based on birth date"""
+    try:
+        birth_date = datetime.strptime(birth_date_str, '%Y-%m-%d')
+        age = reference_date.year - birth_date.year
+        # Adjust age if birthday hasn't occurred yet in the reference year
+        if (reference_date.month, reference_date.day) < (birth_date.month, birth_date.day):
+            age -= 1
+        return age
+    except (ValueError, TypeError):
+        return None
+
+
 # Routes
 @app.route("/", methods=["GET", "POST"])
 @limiter.limit("10 per minute")
@@ -357,8 +391,11 @@ def register():
                 "persons": data["persons"],
                 "contact_firstname": sanitize_input(data["contact_firstname"]),
                 "contact_lastname": sanitize_input(data["contact_lastname"]),
+                "contact_birthdate": sanitize_input(data["contact_birthdate"]),
                 "phone_number": sanitize_input(data["phone_number"]),
-                "email": sanitize_input(data["email"].lower())
+                "email": sanitize_input(data["email"].lower()),
+                "is_driver": bool(data.get("available_seats")),  # Ist Fahrer, wenn Sitzplätze angegeben sind
+                "available_seats": int(data["available_seats"]) if data.get("available_seats") else None
             }
 
             # Store in session
@@ -476,18 +513,59 @@ def admin():
         registrations_data = []
         timezone = pytz.timezone("Europe/Berlin")
         
+        # Referenzdatum für Altersberechnung
+        reference_date = datetime(2025, 5, 10)
+        adult_count = 0
+        child_count = 0
+        total_persons = 0
+        total_seats = 0
+        
         for reg in registrations:
             try:
                 persons_data = json.loads(reg.persons)
+                
+                # Zähle Begleitperson
+                total_persons += 1
+                
+                # Prüfe Alter der Begleitperson
+                if hasattr(reg, 'contact_birthdate') and reg.contact_birthdate:
+                    age = calculate_age(reg.contact_birthdate, reference_date)
+                    if age is not None:
+                        if age >= 18:
+                            adult_count += 1
+                        else:  # Alle unter 18 sind jetzt in einer Kategorie
+                            child_count += 1
+                else:
+                    # Falls kein Geburtsdatum, zähle als Erwachsener
+                    adult_count += 1
+                
+                # Zähle Sitzplätze
+                if reg.is_driver and reg.available_seats:
+                    total_seats += reg.available_seats
+                
+                # Zähle Personen und prüfe Alter
+                for person in persons_data:
+                    total_persons += 1
+                    if 'birthdate' in person:
+                        age = calculate_age(person['birthdate'], reference_date)
+                        if age is not None:
+                            if age >= 18:
+                                adult_count += 1
+                            else:  # Alle unter 18 sind jetzt in einer Kategorie
+                                child_count += 1
+                
                 reg_dict = {
                     'id': reg.id,
                     'contact_firstname': reg.contact_firstname,
                     'contact_lastname': reg.contact_lastname,
+                    'contact_birthdate': getattr(reg, 'contact_birthdate', None),
                     'phone_number': reg.phone_number,
                     'email': reg.email,
                     'confirmed': reg.confirmed,
                     'persons': persons_data,
-                    'created_at': reg.created_at.astimezone(timezone).strftime("%d.%m.%Y %H:%M")
+                    'created_at': reg.created_at.astimezone(timezone).strftime("%d.%m.%Y %H:%M"),
+                    'is_driver': reg.is_driver,
+                    'available_seats': reg.available_seats
                 }
                 registrations_data.append(reg_dict)
             except Exception as person_error:
@@ -497,11 +575,12 @@ def admin():
         stats = {
             'total_registrations': len(registrations),
             'confirmed_registrations': sum(1 for r in registrations if r.confirmed),
-            'total_persons': sum(len(json.loads(r.persons)) for r in registrations)
+            'total_persons': total_persons,
+            'adult_count': adult_count,
+            'child_count': child_count,
+            'total_seats': total_seats
         }
 
-        # Debug logging
-        app.logger.info(f"Registrations data: {registrations_data}")
         app.logger.info(f"Stats: {stats}")
 
         return render_template(
@@ -598,55 +677,132 @@ def delete_all_entries():
 @app.route("/export-excel")
 @admin_required
 def export_excel():
-    """Export registrations to Excel"""
+    """Export registrations to Excel with separate sheets for participants and companions"""
     try:
         registrations = Registration.query\
             .order_by(Registration.created_at.desc())\
             .all()
         
-        data = []
+        # Zwei separate Datensätze anlegen
+        participants_data = []  # Für angemeldete Personen
+        companions_data = []    # Für Begleitpersonen
+        
+        # Referenzdatum für Altersberechnung
+        reference_date = datetime(2025, 5, 10)  # Datum des Events
+        
         for reg in registrations:
+            # Daten für Begleitperson
+            companion_age = calculate_age(reg.contact_birthdate, reference_date) if reg.contact_birthdate else None
+            age_group = "Erwachsener (ab 18)" if companion_age and companion_age >= 18 else "Kind/Jugendl. (bis 17)"
+            
+            companions_data.append({
+                "Vorname": reg.contact_firstname,
+                "Nachname": reg.contact_lastname,
+                "Geburtsdatum": reg.contact_birthdate,
+                "Alter am 10.05.2025": companion_age if companion_age is not None else "Unbekannt",
+                "Altersgruppe": age_group,
+                "Telefon": reg.phone_number,
+                "E-Mail": reg.email,
+                "Fährt mit Auto": "Ja" if reg.is_driver else "Nein",
+                "Anzahl Sitzplätze": reg.available_seats if reg.is_driver else "-",
+                "Anmeldung bestätigt": "Ja" if reg.confirmed else "Nein",
+                "Anmeldezeitpunkt": reg.created_at.astimezone(pytz.timezone("Europe/Berlin")).strftime("%d.%m.%Y %H:%M")
+            })
+            
+            # Daten für angemeldete Personen
             persons = json.loads(reg.persons)
             for person in persons:
-                data.append({
-                    "Zeitstempel": reg.created_at.astimezone(
-                        pytz.timezone("Europe/Berlin")
-                    ).strftime("%d.%m.%Y %H:%M"),
-                    "Vorname Person": person.get('person_firstname'),
-                    "Nachname Person": person.get('person_lastname'),
+                person_age = calculate_age(person.get('birthdate'), reference_date)
+                age_group = "Erwachsener (ab 18)" if person_age and person_age >= 18 else "Kind/Jugendl. (bis 17)"
+                
+                participants_data.append({
+                    "Vorname": person.get('person_firstname'),
+                    "Nachname": person.get('person_lastname'),
                     "Geburtsdatum": person.get('birthdate'),
+                    "Alter am 10.05.2025": person_age if person_age is not None else "Unbekannt",
+                    "Altersgruppe": age_group,
                     "Vereinsmitgliedschaft": person.get('club_membership'),
-                    "Vorname Kontaktperson": reg.contact_firstname,
-                    "Nachname Kontaktperson": reg.contact_lastname,
-                    "Telefon": reg.phone_number,
-                    "E-Mail": reg.email,
-                    "Bestätigt": "Ja" if reg.confirmed else "Nein"
+                    "Begleitperson": f"{reg.contact_firstname} {reg.contact_lastname}",
+                    "Anmeldung bestätigt": "Ja" if reg.confirmed else "Nein",
+                    "Anmeldezeitpunkt": reg.created_at.astimezone(pytz.timezone("Europe/Berlin")).strftime("%d.%m.%Y %H:%M")
                 })
 
-        if not data:
+        # Statistiken zur Anmeldung
+        total_adults = sum(1 for p in participants_data 
+                          if p["Altersgruppe"] == "Erwachsener")
+        total_adults += sum(1 for c in companions_data 
+                           if c["Altersgruppe"] == "Erwachsener")
+        
+        total_children = sum(1 for p in participants_data 
+                            if p["Altersgruppe"] == "Kind/Jugendl.")
+        total_children += sum(1 for c in companions_data 
+                             if c["Altersgruppe"] == "Kind/Jugendl.")
+        
+        total_seats = sum(int(c["Anzahl Sitzplätze"]) for c in companions_data 
+                         if c["Anzahl Sitzplätze"] != "-")
+        
+        # Bei leeren Daten abbrechen
+        if not participants_data and not companions_data:
             flash("Keine Daten zum Exportieren vorhanden.", "warning")
             return redirect(url_for("admin"))
-
-        df = pd.DataFrame(data)
+            
+        # DataFrames erstellen
+        participants_df = pd.DataFrame(participants_data)
+        companions_df = pd.DataFrame(companions_data)
         
+        # Statistik-DataFrame erstellen
+        stats_data = [
+            ["Gesamt Anmeldungen", len(companions_data)],
+            ["Bestätigte Anmeldungen", sum(1 for c in companions_data if c["Anmeldung bestätigt"] == "Ja")],
+            ["Gesamtanzahl Teilnehmer", len(participants_data) + len(companions_data)],
+            ["Anzahl Erwachsene (ab 18)", total_adults],
+            ["Anzahl Kinder (bis 17)", total_children],
+            ["Anzahl verfügbarer Autoplätze", total_seats]
+        ]
+        stats_df = pd.DataFrame(stats_data, columns=["Statistik", "Anzahl"])
+        
+        # Excel-Datei erstellen
         output = BytesIO()
         with pd.ExcelWriter(output, engine='openpyxl') as writer:
-            df.to_excel(writer, index=False, sheet_name='Anmeldungen')
-            worksheet = writer.sheets['Anmeldungen']
+            # Sheet für angemeldete Personen
+            participants_df.to_excel(writer, index=False, sheet_name='Angemeldete Personen')
+            participants_sheet = writer.sheets['Angemeldete Personen']
             
-            # Adjust column widths
-            for idx, col in enumerate(df.columns):
+            # Spaltenbreiten anpassen
+            for idx, col in enumerate(participants_df.columns):
                 max_length = max(
-                    df[col].astype(str).apply(len).max(),
+                    participants_df[col].astype(str).apply(len).max() if not participants_df.empty else 10,
                     len(col)
                 ) + 2
-                worksheet.column_dimensions[chr(65 + idx)].width = min(max_length, 50)
+                participants_sheet.column_dimensions[chr(65 + idx)].width = min(max_length, 30)
+            
+            # Sheet für Begleitpersonen
+            companions_df.to_excel(writer, index=False, sheet_name='Begleit-Aufsichtspersonen')
+            companions_sheet = writer.sheets['Begleit-Aufsichtspersonen']
+            
+            # Spaltenbreiten anpassen
+            for idx, col in enumerate(companions_df.columns):
+                max_length = max(
+                    companions_df[col].astype(str).apply(len).max() if not companions_df.empty else 10,
+                    len(col)
+                ) + 2
+                companions_sheet.column_dimensions[chr(65 + idx)].width = min(max_length, 30)
+            
+            # Statistik-Sheet
+            stats_df.to_excel(writer, index=False, sheet_name='Statistik')
+            stats_sheet = writer.sheets['Statistik']
+            
+            # Spaltenbreiten für Statistik anpassen
+            for idx, col in enumerate(stats_df.columns):
+                stats_sheet.column_dimensions[chr(65 + idx)].width = 25
 
         output.seek(0)
         
+        # Dateiname mit Zeitstempel erstellen
         timestamp = datetime.now(pytz.timezone("Europe/Berlin"))\
             .strftime("%d-%m-%Y_%H-%M-%S")
         
+        # Response mit Excel-Datei senden
         response = Response(
             output.getvalue(),
             mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",

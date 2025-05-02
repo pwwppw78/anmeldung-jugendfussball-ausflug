@@ -13,6 +13,13 @@
     <div class="container">
         <h1>Stadionausfahrt</h1>
         <p class="required-info">Felder mit <span class="required">*</span> sind Pflichtfelder.</p>
+	<p>Die Jugendmannschaften der SGM Brettachtal fahren zum Oberliga-Topspiel der SG Sonnenhof Grossaspach (Tabellenführer) gegen den VfR Aalen (Tabellenvierter).</p>
+	<p>Das Spiel findet am <strong>10.05.2025 um 15:30 Uhr in der WIR-MACHEN-DRUCK-ARENA in Aspach</strong> statt.</p>
+	<p><strong>Für alle in der Personenliste eingetragenen Teilnehmer und für die angegebene Begleitperson wird ein Ticket bestellt.</strong> Wenn ein Kind ohne Begleitperson mitfahren möchte bitte selbstständig untereinander absprechen und jemanden finden, der das eigene Kind einfach mit anmeldet und dort beaufsichtigt. </p>
+	<p><strong>Ticketpreise:</strong><br>
+	Erwachsene 10,00€<br>
+	Kinder/Jugendliche bis 17 Jahre 5,00€<br>
+        Achtung: Kinder unter 10 Jahren erhalten in Begleitung eines Erziehungsberechtigten freien Eintritt. Da dieses Kind dann allerdings keinen Sitzplatz hätte werden wir dieses Angebot seitens Aspach ignorieren und jedem Kind bis 17 Jahren ein Ticket für 5,00€ kaufen.</p>
 
         <form action="/" method="POST" id="registrationForm" novalidate>
             {{ form.hidden_tag() }}  <!-- ✅ CSRF-Token bleibt erhalten -->
@@ -41,6 +48,9 @@
                             <option value="">Verein auswählen</option>
                             <option value="TSV Bitzfeld 1922 e.V.">TSV Bitzfeld 1922 e.V.</option>
                             <option value="TSV Schwabbach 1947 e.V.">TSV Schwabbach 1947 e.V.</option>
+                            <option value="TSG Bretzfeld-Rappach 1954 e.V.">TSG Bretzfeld-Rappach 1954 e.V.</option>
+                            <option value="TSV Waldbach 1908 e.V.">TSV Waldbach 1908 e.V.</option>
+                            <option value="anderer Verein der Gemeinde Bretzfeld">anderer Verein der Gemeinde Bretzfeld</option>
                         </select>
                     </div>
                 </div>
@@ -49,11 +59,11 @@
             <!-- Button, um weitere Person hinzuzufügen -->
             <button type="button" id="add-person-button" class="change-person-button">Weitere Person hinzufügen</button>
 
-            <!-- Kontaktperson-Daten -->
+            <!-- Begleitperson-Daten -->
             <hr class="person-contact-divider">
-            <h3>Kontaktperson</h3>
+            <h3>Begleitperson</h3>
             <div class="form-group">
-                <label for="contact_firstname">Name einer erziehungsberechtigten Kontaktperson <span class="required">*</span></label>
+                <label for="contact_firstname">Name der Begleitperson (mit Erziehungsrecht oder Aufsichtspflicht) <span class="required">*</span></label>
                 <div class="input-group">
                     <input type="text" id="contact_firstname" name="contact_firstname" class="form-control" required placeholder="Vorname">
                     <input type="text" id="contact_lastname" name="contact_lastname" class="form-control" required placeholder="Nachname">
@@ -61,13 +71,24 @@
             </div>
 
             <div class="form-group">
-                <label for="phone_number">Notfall-Telefonnummer <span class="required">*</span></label>
+                <label for="contact_birthdate">Geburtsdatum der Begleitperson <span class="required">*</span></label>
+                <input type="date" id="contact_birthdate" name="contact_birthdate" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="phone_number">Telefonnummer <span class="required">*</span></label>
                 <input type="tel" id="phone_number" name="phone_number" class="form-control" required placeholder="0123 4567890">
             </div>
 
             <div class="form-group">
                 <label for="email">E-Mail Adresse <span class="required">*</span></label>
                 <input type="email" id="email" name="email" class="form-control" required placeholder="beispiel@email.de">
+            </div>
+
+            <div class="form-group">
+                <label for="available_seats">Anzahl der verfügbaren Sitzplätze im Auto (falls Sie fahren können)</label>
+                <input type="number" id="available_seats" name="available_seats" class="form-control" min="1" max="8" placeholder="z.B. 5">
+                <small class="form-text text-muted">Bitte geben Sie die Gesamtanzahl der Plätze im Auto an (inklusive Fahrer).<br></small>
             </div>
 
             <!-- Datenschutz -->

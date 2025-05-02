@@ -76,8 +76,20 @@ const AdminDashboard = () => {
                        <p className="text-3xl font-bold mt-2">{stats.confirmed_registrations}</p>
                    </div>
                    <div className="bg-white p-6 rounded-lg shadow">
-                       <h3 className="text-lg font-semibold">Angemeldete Personen</h3>
+                       <h3 className="text-lg font-semibold">Gesamtanzahl Teilnehmer</h3>
                        <p className="text-3xl font-bold mt-2">{stats.total_persons}</p>
+                   </div>
+                   <div className="bg-white p-6 rounded-lg shadow">
+                       <h3 className="text-lg font-semibold">Anzahl Erwachsene (ab 18 Jahre)</h3>
+                       <p className="text-3xl font-bold mt-2">{stats.adult_count}</p>
+                   </div>
+                   <div className="bg-white p-6 rounded-lg shadow">
+                       <h3 className="text-lg font-semibold">Anzahl Kinder/Jugendliche (bis 17 Jahre)</h3>
+                       <p className="text-3xl font-bold mt-2">{stats.child_count}</p>
+                   </div>
+                   <div className="bg-white p-6 rounded-lg shadow">
+                       <h3 className="text-lg font-semibold">Anzahl Autoplätze</h3>
+                       <p className="text-3xl font-bold mt-2">{stats.total_seats}</p>
                    </div>
                </div>
 
@@ -94,7 +106,7 @@ const AdminDashboard = () => {
                                        Personen
                                    </th>
                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                       Kontaktperson
+                                       Begleit-/Aufsichtsperson
                                    </th>
                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                        Aktionen
@@ -126,8 +138,10 @@ const AdminDashboard = () => {
                                            </td>
                                            <td className="px-6 py-4">
                                                <p>Name: {registration.contact_firstname} {registration.contact_lastname}</p>
+                                               {registration.contact_birthdate && <p>Geb.: {registration.contact_birthdate}</p>}
                                                <p>Telefonnummer: {registration.phone_number}</p>
                                                <p>E-Mail: {registration.email}</p>
+                                               {registration.is_driver && <p className="text-green-600 font-medium">Fährt mit {registration.available_seats} Sitzplätzen</p>}
                                            </td>
                                            <td className="px-6 py-4">
                                                <div className="flex flex-col space-y-2">

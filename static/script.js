@@ -187,9 +187,12 @@ function getPersonFormTemplate(personCount) {
         <input type="date" name="birthdate_${personCount}" required>
         <label>Vereinsmitgliedschaft *</label>
         <select name="club_membership_${personCount}" required>
-            <option value="">Bitte auswählen</option>
+            <option value="">Verein auswählen</option>
             <option value="TSV Bitzfeld 1922 e.V.">TSV Bitzfeld 1922 e.V.</option>
             <option value="TSV Schwabbach 1947 e.V.">TSV Schwabbach 1947 e.V.</option>
+            <option value="TSG Bretzfeld-Rappach 1954 e.V.">TSG Bretzfeld-Rappach 1954 e.V.</option>
+            <option value="TSV Waldbach 1908 e.V.">TSV Waldbach 1908 e.V.</option>
+            <option value="anderer Verein der Gemeinde Bretzfeld">anderer Verein der Gemeinde Bretzfeld</option>
         </select>
         <div class="change-person-button-container">
             <button type="button" class="change-person-button">Diese Person entfernen</button>
@@ -270,13 +273,19 @@ function collectFormData() {
         return null;
     }
 
+    const availableSeats = document.getElementById('available_seats').value;
+    const isDriver = availableSeats && availableSeats > 0;
+
     return {
         csrf_token: csrfToken,
         persons,
         contact_firstname: document.getElementById('contact_firstname').value,
         contact_lastname: document.getElementById('contact_lastname').value,
+        contact_birthdate: document.getElementById('contact_birthdate').value,
         phone_number: document.getElementById('phone_number').value,
-        email: document.getElementById('email').value
+        email: document.getElementById('email').value,
+        is_driver: isDriver,
+        available_seats: isDriver ? availableSeats : null
     };
 }
 
