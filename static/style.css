@@ -668,9 +668,10 @@ table th, table td {
 /* Small Mobile */
 @media (max-width: 480px) {    
    body {
-       background: url('/static/fans-background.svg') no-repeat bottom center fixed;
-       background-size: 350%;
+       background: url('/static/fans-background.svg') no-repeat bottom center;
+       background-size: 250%;
        background-position: center bottom;
+       background-attachment: scroll;
    }
 
    .container {
@@ -683,7 +684,7 @@ table th, table td {
    }
 
    h1 {
-       font-size: 2rem;
+       font-size: 2.2rem;
        margin: 10px 0 15px;
    }
    
