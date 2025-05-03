@@ -44,3 +44,4 @@
 2025-05-03 09:11:48,470 INFO: Stats: {'total_registrations': 0, 'confirmed_registrations': 0, 'total_persons': 0, 'adult_count': 0, 'child_count': 0, 'total_seats': 0} [in C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\app.py:584]
 2025-05-03 09:23:37,262 INFO: Application startup [in C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\app.py:94]
 2025-05-03 09:33:58,763 INFO: Application startup [in C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\app.py:94]
+2025-05-03 17:15:15,822 INFO: Application startup [in C:\Users\pwwpp\Websites\anmeldung-jugendfussball-ausflug\app.py:94]

@@ -669,7 +669,7 @@ table th, table td {
 @media (max-width: 480px) {    
    body {
        background: url('/static/fans-background.svg') no-repeat bottom center fixed;
-       background-size: 250%;
+       background-size: 350%;
        background-position: center bottom;
    }
 
@@ -683,7 +683,7 @@ table th, table td {
    }
 
    h1 {
-       font-size: 1.8rem;
+       font-size: 2rem;
        margin: 10px 0 15px;
    }
    
