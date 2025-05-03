@@ -598,9 +598,9 @@ table th, table td {
 /* Mobile */
 @media (max-width: 768px) {
     .container {
-        width: 85%;
-        margin: 20px auto;
-        padding: 20px;
+        width: 90%;
+        margin: 15px auto;
+        padding: 15px;
     }
     
     h1 {
@@ -623,14 +623,15 @@ table th, table td {
     /* Stack name fields vertically on mobile */
     .input-group, .name-fields {
         flex-direction: column;
-        gap: 8px;
+        gap: 6px;
         width: 100%;
+        margin-bottom: 6px;
     }
     
     .input-group input, .name-fields input {
         width: 100%;
-        margin: 4px 0;
-        height: 40px;
+        margin: 2px 0;
+        height: 36px;
     }
     
     button {
@@ -641,13 +642,13 @@ table th, table td {
     }
     
     label {
-        font-size: 1rem;
-        margin-top: 15px;
+        margin-top: 12px;
+        font-size: 0.9rem;
     }
     
     .required-info {
-        font-size: 0.9rem;
-        margin: 10px 0;
+        font-size: 0.8rem;
+        margin-bottom: 15px;
     }
 
    .change-person-button {
@@ -658,41 +659,53 @@ table th, table td {
     .paypal-button,
     .bank-button {
         width: 100%;
-        margin: 10px 0;
-        padding: 12px;
-        font-size: 1.1rem;
+        margin: 15px 0;
+        padding: 10px;
+        font-size: 1rem;
     }
 }
 
 /* Small Mobile */
 @media (max-width: 480px) {    
-   body{
-       background: url('/static/fans-background.svg') no-repeat bottom center;
-       background-size: 100%;
+   body {
+       background: url('/static/fans-background.svg') no-repeat bottom center fixed;
+       background-size: 250%;
+       background-position: center bottom;
    }
 
    .container {
        width: 100%;
        margin: 0px auto;
-       padding: 20px;
+       padding: 15px;
        border: none;
        background-color: rgba(255, 255, 255, 0.8);        
        border-radius: 0px;
    }
 
    h1 {
-       font-size: clamp(2.2rem, 5vw, 2rem);
+       font-size: 1.8rem;
+       margin: 10px 0 15px;
    }
    
+   h2 {
+       font-size: 1.5rem;
+       margin-bottom: 20px;
+   }
+   
+   h3 {
+       font-size: 1.1rem;
+       margin-bottom: 8px;
+   }
+
    button {
-       font-size: 1.2rem;
-       margin-top: 20px;
-       padding: 10px 10px;
+       padding: 10px;
+       font-size: 1rem;
+       margin: 15px auto;
    }
    
    .person-person-divider,
    .person-contact-divider {
-       margin: 30px 0;
+       margin: 20px 0;
    }
 
    .change-person-button {
@@ -722,7 +735,26 @@ table th, table td {
        content: "TT.MM.JJJJ";
        color: #c4c4cc;
        left: 12px;
+       font-size: 13px;
    }
+
+   table {
+       font-size: 0.5rem;
+       margin: 15px auto;
+   }
+   
+   table th, table td {
+       padding: 1px;
+       line-height: 1.8;
+   }
+
+   input, select, textarea {
+       height: 36px;
+       padding: 8px;
+       margin-bottom: 6px;
+       font-size: 13px;
+   }
+
 }
 
 @media (pointer: coarse) {

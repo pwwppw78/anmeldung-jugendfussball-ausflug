@@ -32,16 +32,15 @@
         {% if data.is_driver %}
         <div class="driver-info">
             <h3>Mitfahrgelegenheit</h3>
-            <p>Vielen Dank, dass Sie mit dem Auto fahren möchten!</p>
-            <p>Sie haben angegeben, dass {% if data.available_seats == 1 %}1 Sitzplatz{% else %}{{ data.available_seats }} Sitzplätze{% endif %} in Ihrem Auto verfügbar sind.</p>
+            <p>Vielen Dank, dass Sie mit dem Auto fahren möchten!<br>Sie haben angegeben, dass {% if data.available_seats == 1 %}1 Sitzplatz{% else %}{{ data.available_seats }} Sitzplätze{% endif %} in Ihrem Auto verfügbar sind.</p>
         </div>
         {% endif %}
 
         <!-- Bezahloptionen -->
         <h3>Bezahlung</h3>
         <div class="payment-info">
-            <p>Um die Anmeldung abzuschließen, ist die Bezahlung der Eintrittskarte(n) per <strong>PayPal Friends & Family</strong> oder <strong>Banküberweisung</strong> erforderlich.</p>
-            <p>Die Bestätigung der Anmeldung erfolgt innerhalb von <strong>24 Stunden</strong> nach Eingang der Zahlung per Mail.</p>
+            <p>Um die Anmeldung abzuschließen, ist die Bezahlung der Eintrittskarte(n) per <strong>PayPal Friends & Family</strong> (bitte hier selbst den Betrag eingeben) oder <strong>Banküberweisung</strong> erforderlich.</p>
+            <p>Die Bestätigung der Anmeldung erfolgt innerhalb von <strong>24 Stunden</strong> nach Eingang der Zahlung per Mail. Bitte um etwas Geduld, da dieser manuelle Arbeitsschritt sich etwas verzögern kann.</p>
         </div>
 
         <div class="button-wrapper">
