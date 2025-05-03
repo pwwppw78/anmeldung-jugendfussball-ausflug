@@ -668,10 +668,9 @@ table th, table td {
 /* Small Mobile */
 @media (max-width: 480px) {    
    body {
-       background: url('/static/fans-background.svg') no-repeat bottom center;
+       background: url('/static/fans-background.svg') no-repeat bottom center fixed;
        background-size: 250%;
        background-position: center bottom;
-       background-attachment: scroll;
    }
 
    .container {
